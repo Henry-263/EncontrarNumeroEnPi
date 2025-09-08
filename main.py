@@ -1,8 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
+import sys
 
-with open("pi.txt", "r") as f:
-    pi_str = f.read().strip()
+ventana = tk.Tk()
+ventana.title("Numero dentro de pi")
+ventana.geometry("800x600")
+
+try:
+    with open("pi.txt", "r") as f:
+        pi_str = f.read().strip()
+except FileNotFoundError:
+    print("No existe el archivo pi.txt")
+    sys.exit()
 
 def validate_entry(text):
     return text.isdecimal()
@@ -22,13 +31,9 @@ def obtener_numero(event = None):
         inicio = pos + 1
         fin = pos + len(num)
         print(f"El número está en la posición: ({inicio}-{fin})")
-        resultado.config(text = f"El número {num} está en la posición: ({inicio}-{fin})")
+        resultado.config(text = f"El número {num} está en la posición de pi: ({inicio}-{fin})")
 
 
-
-ventana = tk.Tk()
-ventana.title("Numero dentro de pi")
-ventana.geometry("800x600")
 
 texto = tk.Entry(validate="key",
     validatecommand=(ventana.register(validate_entry), "%S")
@@ -36,7 +41,11 @@ texto = tk.Entry(validate="key",
 texto.place(x=300, y=50)
 
 resultado = tk.Label(text="")
-resultado.place(x=300, y=80)
+resultado.place(x=250, y=80)
+
+titulo = ttk.Label(text="Encuentra en que posicion de pi se encuentra un numero:")
+titulo.place(x=230, y=20)
+
 texto.bind("<Return>", obtener_numero)
 ventana.mainloop()
 
