@@ -6,6 +6,9 @@ ventana = tk.Tk()
 ventana.title("Número dentro de pi")
 ventana.geometry("800x600")
 
+ventana.grid_columnconfigure(1, weight=1)
+
+tam_fuente = 15
 num = None
 pos = None
 posicion_busqueda = [0, 1]
@@ -22,7 +25,6 @@ def siguiente_numero():
     global num, pos
 
     if num is not None and pos is not None:
-        # empezamos a buscar desde la última posición encontrada +1
         posicion_busqueda[0] = pos + 1
         posicion_busqueda[1] += 1
         obtener_numero()
@@ -53,22 +55,25 @@ def obtener_numero(event=None):
             text=f"La vez {posicion_busqueda[1]} que aparece el número {num} está en la posición de pi: ({inicio}-{fin})"
         )
 
-siguiente = tk.Button(ventana, text="->", command=siguiente_numero)
-siguiente.place(x=350, y=100)
 
 texto = tk.Entry(
+    font=("Arial", tam_fuente),
     validate="key",
     validatecommand=(ventana.register(validate_entry), "%S")
 )
-texto.place(x=300, y=50)
+texto.grid(row=1, column=1)
 
-resultado = tk.Label(text="")
-resultado.place(x=250, y=80)
+siguiente = tk.Button(ventana, text="->", command=siguiente_numero, font=("Arial", tam_fuente))
+siguiente.grid(row=3, column=1)
+
+resultado = tk.Label(text="", font=("Arial", tam_fuente))
+resultado.grid(row=2, column=1)
 
 titulo = ttk.Label(
+    font=("Arial", tam_fuente),
     text="Encuentra en qué posición de pi se encuentra un número:"
 )
-titulo.place(x=230, y=20)
+titulo.grid(row=0, column=1)
 
 texto.bind("<Return>", obtener_numero)
 
